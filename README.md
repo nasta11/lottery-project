@@ -22,5 +22,5 @@
 
 1. Клонируйте репозиторий:
 
-   ```bash
+   bash
    git clone https://github.com/nasta11/lottery-project.git
