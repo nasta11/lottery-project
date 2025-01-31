@@ -41,6 +41,6 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 
 1. Клонируйте репозиторий:
 
-   ```bash
+   bash
    git clone https://github.com/nasta11/lottery-project.git
 >>>>>>> 44c124abd2b489f6b07b447ec8f36de2630e7cca
