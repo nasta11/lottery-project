@@ -9,7 +9,7 @@ async function main() {
 
   // Получаем контракт Lottery
   const Lottery = await hre.ethers.getContractFactory("Lottery");
-  const lottery = await Lottery.deploy(ethers.utils.parseEther("0.1")); // Пример: цена билета 0.1 ETH
+  const lottery = await Lottery.deploy(ethers.utils.parseEther("0.1")); //  цена билета 0.1 ETH
 
   console.log("Lottery contract deployed to:", lottery.address);
 }
