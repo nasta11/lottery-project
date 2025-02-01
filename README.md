@@ -5,17 +5,17 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 
 Try running some of the following tasks:
 
-```shell
+shell
 npx hardhat help
 npx hardhat test
 REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
-=======
+
+
 # lottery-project
->>>>>>> 7a347330569c09f7f5fbe71de5fa8cc6180c19e8
-=======
+ 7a347330569c09f7f5fbe71de5fa8cc6180c19e8
+
 # lottery-project
 
 
@@ -42,4 +42,4 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 
    bash
    git clone https://github.com/nasta11/lottery-project.git
->>>>>>> 44c124abd2b489f6b07b447ec8f36de2630e7cca
+ 44c124abd2b489f6b07b447ec8f36de2630e7cca
