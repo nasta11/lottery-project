@@ -2,7 +2,7 @@ require('@nomiclabs/hardhat-ethers');
 require('dotenv').config();
 
 module.exports = {
-  solidity: "0.8.28",
+  solidity: "0.8.27",
   networks: {
     sepolia: {
       url: `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
