@@ -3,7 +3,7 @@ require("@nomicfoundation/hardhat-verify");
 require("dotenv").config();
 
 module.exports = {
-  solidity: "0.8.27",
+  solidity: "0.8.26",
   networks: {
     sepolia: {
       url: `https://eth-sepolia.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
