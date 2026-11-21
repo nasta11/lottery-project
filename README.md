@@ -1,45 +1,80 @@
+# Lottery — смарт-контракт лотереи с честной случайностью
 
-# Sample Hardhat Project
+![Tests](https://github.com/nasta11/lottery-project/actions/workflows/test.yml/badge.svg)
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+[Русский](#русский) · [English](#english)
 
-Try running some of the following tasks:
+> ⚠️ **Учебный проект.** Контракт не проходил аудит и работает только в тестовой сети Sepolia. Не используйте его с настоящими деньгами. Для проведения настоящей лотереи нужна лицензия.
 
-shell
-npx hardhat help
+---
+
+## Русский
+
+Децентрализованная лотерея на Solidity. Игроки покупают билеты в течение раунда, после его окончания случайного победителя выбирает **Chainlink VRF v2.5**, а результат может проверить любой.
+
+### Что умеет контракт
+
+- **Честная случайность.** Число приходит от Chainlink VRF вместе с криптографическим доказательством. Ни владелец, ни майнеры не могут подстроить результат.
+- **Розыгрыш без владельца.** Функцию `draw()` может вызвать любой после окончания раунда, поэтому владелец не выбирает «удобный» момент.
+- **Безопасные выплаты (pull payments).** Выигрыш, комиссия и возвраты начисляются на баланс, а пользователь сам забирает их через `withdraw()`. Это работает и для смарт-кошельков вроде Safe.
+- **Защита от зависания.** Если Chainlink не ответил за 24 часа, раунд отменяется через `cancelStuckRound()`, и игроки возвращают деньги через `claimRefund()`.
+- **Ограничения.** Комиссия не больше 20%, не больше 500 игроков в раунде. Если игроков нет, раунд продлевается.
+- **События** для сайта: `Entered`, `DrawRequested`, `WinnerPicked`, `RoundCancelled`, `Refunded`, `Withdrawn`.
+
+### Как устроен раунд
+
+```
+enter() × N  →  время вышло  →  draw()  →  Chainlink VRF  →  WinnerPicked  →  новый раунд
+                                              │
+                                              └─ нет ответа 24 ч → cancelStuckRound() → claimRefund()
+```
+
+### Запуск
+
+```bash
+git clone https://github.com/nasta11/lottery-project.git
+cd lottery-project
+npm install
 npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
+```
 
+### Деплой в Sepolia
 
-# lottery-project
- 7a347330569c09f7f5fbe71de5fa8cc6180c19e8
+1. Создайте подписку на [vrf.chain.link](https://vrf.chain.link) и пополните её тестовыми LINK ([faucets.chain.link](https://faucets.chain.link)).
+2. Скопируйте `.env.example` в `.env` и заполните. Адрес координатора и key hash возьмите [из документации Chainlink](https://docs.chain.link/vrf/v2-5/supported-networks).
+3. `npm run deploy:sepolia`
+4. Добавьте адрес задеплоенного контракта как **consumer** в своей подписке.
 
-# lottery-project
+### Технологии
 
+Solidity 0.8.26 · Hardhat · Chainlink VRF v2.5 · ethers v6 · Mocha/Chai · GitHub Actions
 
+---
 
-Этот проект представляет собой простую децентрализованную лотерею, созданную с использованием Solidity и Hardhat. Он позволяет пользователям участвовать в лотерее, отправляя эфир в смарт-контракт, и случайным образом выбирает победителя.
+## English
 
-## Особенности
+A decentralized lottery written in Solidity. Players buy tickets during a round; when it ends, a random winner is chosen with **Chainlink VRF v2.5**, and anyone can verify the result.
 
-- **Участие в лотерее**: Пользователи могут участвовать в лотерее, отправляя эфир в контракт.
-- **Случайный выбор победителя**: Победитель выбирается случайным образом из всех участников.
-- **Распределение приза**: Победитель получает весь призовой фонд.
+### Features
 
-## Требования
+- **Verifiable randomness** from Chainlink VRF, so neither the owner nor validators can bias the result.
+- **Permissionless draw:** anyone can call `draw()` once the round ends, so the owner cannot time it.
+- **Pull payments:** prizes, fees and refunds are credited and claimed via `withdraw()`, which also works with smart-contract wallets.
+- **Stuck-round recovery:** if VRF doesn't respond within 24 hours, `cancelStuckRound()` lets players get their money back through `claimRefund()`.
+- **Limits:** fee capped at 20%, max 500 players per round, and an empty round is extended.
+- **Events** for a frontend.
 
-Перед запуском проекта убедитесь, что у вас установлены следующие компоненты:
+### Run locally
 
-- Node.js (версия 16 или выше)
-- Hardhat
-- Metamask или другой кошелек Ethereum
+```bash
+npm install
+npx hardhat test
+```
 
-## Настройка и установка
+Deployment steps are the same as in the Russian section above.
 
-1. Клонируйте репозиторий:
+**Tech:** Solidity 0.8.26, Hardhat, Chainlink VRF v2.5, ethers v6, Mocha/Chai, GitHub Actions.
 
-   bash
-   git clone https://github.com/nasta11/lottery-project.git
- 44c124abd2b489f6b07b447ec8f36de2630e7cca
+---
+
+Автор / Author: [nasta11](https://github.com/nasta11) · License: MIT
